@@ -1,6 +1,6 @@
 # Environmental Alerts API
 
-Practical assignment 2 for the ISI course — 2025/2026.
+Practical assignment for the Internet and Distributed Systems course — 2025/2026.
 
 This application is an API for managing locations, environmental readings and alerts.
 
