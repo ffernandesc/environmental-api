@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <title>Environmental Alerts - Client Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      color: #1a1a1a;
+      background: #fafafa;
+    }
+    h1 { margin-bottom: 0.25rem; }
+    p.subtitle { color: #666; margin-top: 0; }
+    fieldset {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      background: white;
+    }
+    legend { font-weight: 600; padding: 0 0.4rem; }
+    label { display: block; font-size: 0.85rem; margin-top: 0.6rem; color: #444; }
+    input, select {
+      width: 100%;
+      padding: 0.4rem;
+      margin-top: 0.2rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    button {
+      margin-top: 0.8rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button:hover { background: #1d4ed8; }
+    button.secondary { background: #6b7280; }
+    button.secondary:hover { background: #4b5563; }
+    button.danger { background: #dc2626; }
+    button.danger:hover { background: #b91c1c; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    th { color: #555; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .row > div { flex: 1; min-width: 200px; }
+    .status {
+      font-size: 0.85rem;
+      margin-top: 0.6rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      display: none;
+    }
+    .status.ok { display: block; background: #dcfce7; color: #166534; }
+    .status.error { display: block; background: #fee2e2; color: #991b1b; }
+    .inline-actions button { margin-top: 0; padding: 0.25rem 0.6rem; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <h1>Environmental Alerts</h1>
+  <p class="subtitle">Cliente de demonstração para a API Environmental Alerts.</p>
+
+  <fieldset>
+    <legend>Ligação</legend>
+    <div class="row">
+      <div>
+        <label for="apiBaseUrl">URL da API</label>
+        <input id="apiBaseUrl" type="text" placeholder="http://localhost:5135" />
+      </div>
+      <div>
+        <label for="apiKey">API Key</label>
+        <input id="apiKey" type="text" placeholder="X-API-Key" />
+      </div>
+    </div>
+    <button id="saveConnectionButton">Guardar</button>
+    <button id="healthCheckButton" class="secondary">Testar ligação</button>
+    <div id="connectionStatus" class="status"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Localizações</legend>
+    <form id="locationForm">
+      <div class="row">
+        <div>
+          <label for="locationCity">Cidade</label>
+          <input id="locationCity" type="text" required />
+        </div>
+        <div>
+          <label for="locationDistrict">Distrito</label>
+          <input id="locationDistrict" type="text" required />
+        </div>
+        <div>
+          <label for="locationLatitude">Latitude</label>
+          <input id="locationLatitude" type="number" step="any" required />
+        </div>
+        <div>
+          <label for="locationLongitude">Longitude</label>
+          <input id="locationLongitude" type="number" step="any" required />
+        </div>
+      </div>
+      <button type="submit">Criar localização</button>
+    </form>
+    <div id="locationStatus" class="status"></div>
+    <table>
+      <thead>
+        <tr><th>Id</th><th>Cidade</th><th>Distrito</th><th>Lat</th><th>Lon</th><th></th></tr>
+      </thead>
+      <tbody id="locationsTableBody"></tbody>
+    </table>
+  </fieldset>
+
+  <fieldset>
+    <legend>Leituras Ambientais</legend>
+    <form id="readingForm">
+      <div class="row">
+        <div>
+          <label for="readingLocation">Localização</label>
+          <select id="readingLocation" required></select>
+        </div>
+        <div>
+          <label for="readingTemperature">Temperatura (°C)</label>
+          <input id="readingTemperature" type="number" step="any" required />
+        </div>
+        <div>
+          <label for="readingHumidity">Humidade (%)</label>
+          <input id="readingHumidity" type="number" step="any" required />
+        </div>
+        <div>
+          <label for="readingWindSpeed">Vento (km/h)</label>
+          <input id="readingWindSpeed" type="number" step="any" required />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="readingPrecipitation">Precipitação (mm)</label>
+          <input id="readingPrecipitation" type="number" step="any" required />
+        </div>
+        <div>
+          <label for="readingPm10">PM10</label>
+          <input id="readingPm10" type="number" step="any" required />
+        </div>
+        <div>
+          <label for="readingPm25">PM2.5</label>
+          <input id="readingPm25" type="number" step="any" required />
+        </div>
+        <div>
+          <label for="readingEuropeanAqi">Índice de Qualidade do Ar</label>
+          <input id="readingEuropeanAqi" type="number" required />
+        </div>
+      </div>
+      <button type="submit">Criar leitura</button>
+      <button type="button" id="importCurrentButton" class="secondary">Importar leitura atual (Open-Meteo)</button>
+    </form>
+    <div id="readingStatus" class="status"></div>
+    <table>
+      <thead>
+        <tr><th>Id</th><th>Localização</th><th>Data</th><th>Temp</th><th>Humid.</th><th>Vento</th><th>AQI</th><th></th></tr>
+      </thead>
+      <tbody id="readingsTableBody"></tbody>
+    </table>
+  </fieldset>
+
+  <fieldset>
+    <legend>Alertas</legend>
+    <button id="refreshAlertsButton" class="secondary">Atualizar alertas</button>
+    <div id="alertStatus" class="status"></div>
+    <table>
+      <thead>
+        <tr><th>Id</th><th>Localização</th><th>Tipo</th><th>Nível</th><th>Mensagem</th><th>Criado em</th><th></th></tr>
+      </thead>
+      <tbody id="alertsTableBody"></tbody>
+    </table>
+  </fieldset>
+
+  <script src="app.js"></script>
+</body>
+</html>

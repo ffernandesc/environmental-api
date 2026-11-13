@@ -1,0 +1,142 @@
+# =========================
+# Build outputs
+# =========================
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# =========================
+# .NET / NuGet
+# =========================
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+.nuget/
+project.assets.json
+project.nuget.cache
+artifacts/
+
+# Keep NuGet config only if it has no secrets
+# NuGet.Config
+
+# =========================
+# Visual Studio / Rider / VS Code
+# =========================
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+_ReSharper*/
+*.DotSettings.user
+
+# =========================
+# EF Core / Migrations
+# =========================
+# IMPORTANT:
+# Do NOT ignore Migrations/ by default.
+# EF Core migrations should usually be committed.
+#
+# Ignore only temporary migration backups or generated SQL scripts if you create them locally:
+*.migration.sql
+migrations.sql
+MigrationScripts/
+GeneratedMigrations/
+
+# =========================
+# Database files
+# =========================
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
+# =========================
+# App settings / secrets
+# =========================
+appsettings.Local.json
+appsettings.Development.local.json
+appsettings.*.local.json
+secrets.json
+.env
+.env.*
+!.env.example
+
+# Be careful with these:
+# appsettings.Development.json is often committed in dev teams
+# appsettings.Production.json should usually NOT contain secrets
+
+# =========================
+# Logs
+# =========================
+logs/
+Logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Test results / coverage
+# =========================
+TestResults/
+coverage/
+coverage.xml
+coverage.json
+*.coverage
+*.coveragexml
+lcov.info
+
+# =========================
+# Publish outputs
+# =========================
+publish/
+Published/
+wwwroot/dist/
+wwwroot/build/
+
+# =========================
+# Frontend assets inside .NET projects
+# =========================
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# =========================
+# Docker / local overrides
+# =========================
+docker-compose.override.yml
+docker-compose.*.override.yml
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.orig
+*.rej

@@ -1,0 +1,110 @@
+[
+  {
+    "city": "Viana do Castelo",
+    "district": "Viana do Castelo",
+    "latitude": 41.6938,
+    "longitude": -8.8345
+  },
+  {
+    "city": "Vila Real",
+    "district": "Vila Real",
+    "latitude": 41.3006,
+    "longitude": -7.7441
+  },
+  {
+    "city": "Bragança",
+    "district": "Bragança",
+    "latitude": 41.8061,
+    "longitude": -6.7567
+  },
+  {
+    "city": "Braga",
+    "district": "Braga",
+    "latitude": 41.5454,
+    "longitude": -8.4265
+  },
+  {
+    "city": "Porto",
+    "district": "Porto",
+    "latitude": 41.1579,
+    "longitude": -8.6291
+  },
+  {
+  "city": "Aveiro",
+  "district": "Aveiro",
+  "latitude": 40.6405,
+  "longitude": -8.6538
+  },
+  {
+    "city": "Viseu",
+    "district": "Viseu",
+    "latitude": 40.6566,
+    "longitude": -7.9125
+  },
+  {
+    "city": "Guarda",
+    "district": "Guarda",
+    "latitude": 40.5373,
+    "longitude": -7.2658
+  },
+  {
+    "city": "Coimbra",
+    "district": "Coimbra",
+    "latitude": 40.2033,
+    "longitude": -8.4103
+  },
+  {
+    "city": "Castelo Branco",
+    "district": "Castelo Branco",
+    "latitude": 39.8222,
+    "longitude": -7.4919
+  },
+  {
+    "city": "Santarém",
+    "district": "Santarém",
+    "latitude": 39.2369,
+    "longitude": -8.6850
+  },
+  {
+    "city": "Portalegre",
+    "district": "Portalegre",
+    "latitude": 39.2967,
+    "longitude": -7.4285
+  },
+  {
+    "city": "Leiria",
+    "district": "Leiria",
+    "latitude": 39.7436,
+    "longitude": -8.8071
+  },
+  {
+    "city": "Lisboa",
+    "district": "Lisboa",
+    "latitude": 38.7223,
+    "longitude": -9.1393
+  },
+  {
+    "city": "Setúbal",
+    "district": "Setúbal",
+    "latitude": 38.5244,
+    "longitude": -8.8882
+  },
+  {
+    "city": "Évora",
+    "district": "Évora",
+    "latitude": 38.5714,
+    "longitude": -7.9135
+  },
+  {
+    "city": "Beja",
+    "district": "Beja",
+    "latitude": 38.0151,
+    "longitude": -7.8632
+  },
+  {
+    "city": "Faro",
+    "district": "Faro",
+    "latitude": 37.0194,
+    "longitude": -7.9304
+  }
+]

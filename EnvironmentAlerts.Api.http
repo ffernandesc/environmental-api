@@ -1,0 +1,476 @@
+@hostAddress = http://localhost:5135
+@apiKey = <your-api-key>
+
+### =========================================================
+### Health
+### =========================================================
+
+### Health check
+GET {{hostAddress}}/
+
+### =========================================================
+### Locations
+### =========================================================
+
+### Create a location
+# @name createLocation
+POST {{hostAddress}}/api/locations
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "city": "Braga",
+  "district": "Braga",
+  "latitude": 41.5454,
+  "longitude": -8.4265
+}
+
+### Create a location - 401 Unauthorized (missing API key)
+POST {{hostAddress}}/api/locations
+Content-Type: application/json
+
+{
+  "city": "Porto",
+  "district": "Porto",
+  "latitude": 41.1579,
+  "longitude": -8.6291
+}
+
+### List all locations
+GET {{hostAddress}}/api/locations
+
+### Get location by id
+GET {{hostAddress}}/api/locations/{{createLocation.response.body.$.id}}
+
+### Get location by id - 404 Not Found
+GET {{hostAddress}}/api/locations/999999
+
+### Update a location
+PUT {{hostAddress}}/api/locations/{{createLocation.response.body.$.id}}
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "city": "Braga",
+  "district": "Braga",
+  "latitude": 41.55,
+  "longitude": -8.42
+}
+
+### Update a location - 401 Unauthorized (missing API key)
+PUT {{hostAddress}}/api/locations/{{createLocation.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "city": "Braga",
+  "district": "Braga",
+  "latitude": 41.55,
+  "longitude": -8.42
+}
+
+### Update a location - 404 Not Found
+PUT {{hostAddress}}/api/locations/999999
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "city": "Braga",
+  "district": "Braga",
+  "latitude": 41.55,
+  "longitude": -8.42
+}
+
+### Delete a location - 404 Not Found
+DELETE {{hostAddress}}/api/locations/999999
+X-API-Key: {{apiKey}}
+
+### Delete a location - 401 Unauthorized (missing API key)
+DELETE {{hostAddress}}/api/locations/{{createLocation.response.body.$.id}}
+
+### Delete a location
+DELETE {{hostAddress}}/api/locations/{{createLocation.response.body.$.id}}
+X-API-Key: {{apiKey}}
+
+### =========================================================
+### Readings
+### =========================================================
+
+### Create a location to attach readings/alerts to
+# @name createReadingsLocation
+POST {{hostAddress}}/api/locations
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "city": "Braga",
+  "district": "Braga",
+  "latitude": 41.5454,
+  "longitude": -8.4265
+}
+
+### Create a reading (values within safe ranges - no alert generated)
+# @name createReading
+POST {{hostAddress}}/api/readings
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "dateTime": "2026-07-06T10:00:00",
+  "temperature": 20,
+  "humidity": 50,
+  "windSpeed": 10,
+  "precipitation": 0,
+  "pm10": 10,
+  "pm25": 10,
+  "europeanAqi": 10
+}
+
+### Create a reading (values exceed thresholds - alert generated automatically)
+POST {{hostAddress}}/api/readings
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "dateTime": "2026-07-06T10:00:00",
+  "temperature": 36,
+  "humidity": 92,
+  "windSpeed": 55,
+  "precipitation": 12,
+  "pm10": 110,
+  "pm25": 55,
+  "europeanAqi": 85
+}
+
+### Create a reading - 400 Bad Request (LocationId does not exist)
+POST {{hostAddress}}/api/readings
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": 999999,
+  "dateTime": "2026-07-06T10:00:00",
+  "temperature": 20,
+  "humidity": 50,
+  "windSpeed": 10,
+  "precipitation": 0,
+  "pm10": 10,
+  "pm25": 10,
+  "europeanAqi": 10
+}
+
+### Create a reading - 401 Unauthorized (missing API key)
+POST {{hostAddress}}/api/readings
+Content-Type: application/json
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "dateTime": "2026-07-06T10:00:00",
+  "temperature": 20,
+  "humidity": 50,
+  "windSpeed": 10,
+  "precipitation": 0,
+  "pm10": 10,
+  "pm25": 10,
+  "europeanAqi": 10
+}
+
+### List all readings
+GET {{hostAddress}}/api/readings
+
+### Get reading by id
+GET {{hostAddress}}/api/readings/{{createReading.response.body.$.reading.id}}
+
+### Get reading by id - 404 Not Found
+GET {{hostAddress}}/api/readings/999999
+
+### Update a reading
+PUT {{hostAddress}}/api/readings/{{createReading.response.body.$.reading.id}}
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "dateTime": "2026-07-06T12:00:00",
+  "temperature": 22,
+  "humidity": 55,
+  "windSpeed": 12,
+  "precipitation": 0.2,
+  "pm10": 15,
+  "pm25": 12,
+  "europeanAqi": 15
+}
+
+### Update a reading - 400 Bad Request (LocationId does not exist)
+PUT {{hostAddress}}/api/readings/{{createReading.response.body.$.reading.id}}
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": 999999,
+  "dateTime": "2026-07-06T12:00:00",
+  "temperature": 22,
+  "humidity": 55,
+  "windSpeed": 12,
+  "precipitation": 0.2,
+  "pm10": 15,
+  "pm25": 12,
+  "europeanAqi": 15
+}
+
+### Update a reading - 401 Unauthorized (missing API key)
+PUT {{hostAddress}}/api/readings/{{createReading.response.body.$.reading.id}}
+Content-Type: application/json
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "dateTime": "2026-07-06T12:00:00",
+  "temperature": 22,
+  "humidity": 55,
+  "windSpeed": 12,
+  "precipitation": 0.2,
+  "pm10": 15,
+  "pm25": 12,
+  "europeanAqi": 15
+}
+
+### Update a reading - 404 Not Found
+PUT {{hostAddress}}/api/readings/999999
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "dateTime": "2026-07-06T12:00:00",
+  "temperature": 22,
+  "humidity": 55,
+  "windSpeed": 12,
+  "precipitation": 0.2,
+  "pm10": 15,
+  "pm25": 12,
+  "europeanAqi": 15
+}
+
+### Import the current reading from Open-Meteo for a location
+POST {{hostAddress}}/api/readings/import-current/{{createReadingsLocation.response.body.$.id}}
+X-API-Key: {{apiKey}}
+
+### Import the current reading - 404 Not Found (location does not exist)
+POST {{hostAddress}}/api/readings/import-current/999999
+X-API-Key: {{apiKey}}
+
+### Import the current reading - 401 Unauthorized (missing API key)
+POST {{hostAddress}}/api/readings/import-current/{{createReadingsLocation.response.body.$.id}}
+
+### Delete a reading - 404 Not Found
+DELETE {{hostAddress}}/api/readings/999999
+X-API-Key: {{apiKey}}
+
+### Delete a reading - 401 Unauthorized (missing API key)
+DELETE {{hostAddress}}/api/readings/{{createReading.response.body.$.reading.id}}
+
+### Delete a reading
+DELETE {{hostAddress}}/api/readings/{{createReading.response.body.$.reading.id}}
+X-API-Key: {{apiKey}}
+
+### =========================================================
+### Alerts
+### =========================================================
+
+### Create a reading to attach an alert to
+# @name createAlertsReading
+POST {{hostAddress}}/api/readings
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "dateTime": "2026-07-06T10:00:00",
+  "temperature": 20,
+  "humidity": 50,
+  "windSpeed": 10,
+  "precipitation": 0,
+  "pm10": 10,
+  "pm25": 10,
+  "europeanAqi": 10
+}
+
+### Create an alert manually
+# @name createAlert
+POST {{hostAddress}}/api/alerts
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "readingId": {{createAlertsReading.response.body.$.reading.id}},
+  "alertType": "Temperature",
+  "warningLevel": "High",
+  "message": "Temperatura elevada registada para esta localização."
+}
+
+### Create an alert - 400 Bad Request (LocationId does not exist)
+POST {{hostAddress}}/api/alerts
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": 999999,
+  "readingId": {{createAlertsReading.response.body.$.reading.id}},
+  "alertType": "Temperature",
+  "warningLevel": "High",
+  "message": "Temperatura elevada registada para esta localização."
+}
+
+### Create an alert - 400 Bad Request (ReadingId does not exist)
+POST {{hostAddress}}/api/alerts
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "readingId": 999999,
+  "alertType": "Temperature",
+  "warningLevel": "High",
+  "message": "Temperatura elevada registada para esta localização."
+}
+
+### Create an alert - 401 Unauthorized (missing API key)
+POST {{hostAddress}}/api/alerts
+Content-Type: application/json
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "readingId": {{createAlertsReading.response.body.$.reading.id}},
+  "alertType": "Temperature",
+  "warningLevel": "High",
+  "message": "Temperatura elevada registada para esta localização."
+}
+
+### List all alerts
+GET {{hostAddress}}/api/alerts
+
+### Get alert by id
+GET {{hostAddress}}/api/alerts/{{createAlert.response.body.$.id}}
+
+### Get alert by id - 404 Not Found
+GET {{hostAddress}}/api/alerts/999999
+
+### Update an alert
+PUT {{hostAddress}}/api/alerts/{{createAlert.response.body.$.id}}
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "readingId": {{createAlertsReading.response.body.$.reading.id}},
+  "alertType": "Temperature",
+  "warningLevel": "Very High",
+  "message": "Temperatura muito elevada registada para esta localização."
+}
+
+### Update an alert - 400 Bad Request (LocationId does not exist)
+PUT {{hostAddress}}/api/alerts/{{createAlert.response.body.$.id}}
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": 999999,
+  "readingId": {{createAlertsReading.response.body.$.reading.id}},
+  "alertType": "Temperature",
+  "warningLevel": "Very High",
+  "message": "Temperatura muito elevada registada para esta localização."
+}
+
+### Update an alert - 401 Unauthorized (missing API key)
+PUT {{hostAddress}}/api/alerts/{{createAlert.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "readingId": {{createAlertsReading.response.body.$.reading.id}},
+  "alertType": "Temperature",
+  "warningLevel": "Very High",
+  "message": "Temperatura muito elevada registada para esta localização."
+}
+
+### Update an alert - 404 Not Found
+PUT {{hostAddress}}/api/alerts/999999
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "locationId": {{createReadingsLocation.response.body.$.id}},
+  "readingId": {{createAlertsReading.response.body.$.reading.id}},
+  "alertType": "Temperature",
+  "warningLevel": "Very High",
+  "message": "Temperatura muito elevada registada para esta localização."
+}
+
+### Delete an alert - 404 Not Found
+DELETE {{hostAddress}}/api/alerts/999999
+X-API-Key: {{apiKey}}
+
+### Delete an alert - 401 Unauthorized (missing API key)
+DELETE {{hostAddress}}/api/alerts/{{createAlert.response.body.$.id}}
+
+### Delete an alert
+DELETE {{hostAddress}}/api/alerts/{{createAlert.response.body.$.id}}
+X-API-Key: {{apiKey}}
+
+### =========================================================
+### SOAP - /soap/datalayer.asmx (IDataLayerSoapService)
+### =========================================================
+
+### SOAP - GetLocations
+POST {{hostAddress}}/soap/datalayer.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://environmentalerts.api/soap/IDataLayerSoapService/GetLocations"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <GetLocations xmlns="https://environmentalerts.api/soap" />
+  </soap:Body>
+</soap:Envelope>
+
+### SOAP - GetLocationById
+POST {{hostAddress}}/soap/datalayer.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://environmentalerts.api/soap/IDataLayerSoapService/GetLocationById"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <GetLocationById xmlns="https://environmentalerts.api/soap">
+      <id>1</id>
+    </GetLocationById>
+  </soap:Body>
+</soap:Envelope>
+
+### SOAP - GetAlerts
+POST {{hostAddress}}/soap/datalayer.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://environmentalerts.api/soap/IDataLayerSoapService/GetAlerts"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <GetAlerts xmlns="https://environmentalerts.api/soap" />
+  </soap:Body>
+</soap:Envelope>
+
+### SOAP - GetAlertsByLocation
+POST {{hostAddress}}/soap/datalayer.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://environmentalerts.api/soap/IDataLayerSoapService/GetAlertsByLocation"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <GetAlertsByLocation xmlns="https://environmentalerts.api/soap">
+      <locationId>1</locationId>
+    </GetAlertsByLocation>
+  </soap:Body>
+</soap:Envelope>
